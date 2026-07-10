@@ -723,6 +723,8 @@ export interface Database {
       create_purchase_order: { Args: { p_supplier_id: string | null; p_amount_usd: number | null }; Returns: Database["public"]["Tables"]["purchase_orders"]["Row"] };
       decide_purchase_order: { Args: { p_po_id: string; p_approve: boolean }; Returns: Database["public"]["Tables"]["purchase_orders"]["Row"] };
       mark_po_delivered: { Args: { p_po_id: string }; Returns: Database["public"]["Tables"]["purchase_orders"]["Row"] };
+      portal_respond_to_quotation: { Args: { p_quotation_id: string; p_accept: boolean }; Returns: Database["public"]["Tables"]["quotations"]["Row"] };
+      portal_log_request: { Args: { p_kind: string; p_note: string | null; p_rating?: number | null }; Returns: Database["public"]["Tables"]["communications"]["Row"] };
     };
     Enums: {
       user_role: UserRole;

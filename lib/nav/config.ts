@@ -76,6 +76,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Users & Roles", href: "/administration/users", icon: "manage_accounts", roles: ["owner"] },
       { label: "Audit Logs", href: "/administration/audit-log", icon: "history", roles: ["owner", "admin"] },
+      { label: "Recycle Bin", href: "/administration/recycle-bin", icon: "restore_from_trash", roles: ["owner", "admin"] },
       { label: "Settings", href: "/administration/settings", icon: "settings", roles: ["owner", "admin"] },
     ],
   },

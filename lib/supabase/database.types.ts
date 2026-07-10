@@ -168,12 +168,14 @@ export interface Database {
           deleted_at: string | null;
           created_by: string | null;
           updated_by: string | null;
+          campaign_id: string | null;
         };
         Insert: Partial<Database["public"]["Tables"]["leads"]["Row"]> & { company_name: string; source: LeadSource };
         Update: Partial<Database["public"]["Tables"]["leads"]["Row"]>;
         Relationships: [
           { foreignKeyName: "leads_owner_id_fkey"; columns: ["owner_id"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] },
-          { foreignKeyName: "leads_customer_id_fkey"; columns: ["customer_id"]; isOneToOne: false; referencedRelation: "customers"; referencedColumns: ["id"] }
+          { foreignKeyName: "leads_customer_id_fkey"; columns: ["customer_id"]; isOneToOne: false; referencedRelation: "customers"; referencedColumns: ["id"] },
+          { foreignKeyName: "leads_campaign_id_fkey"; columns: ["campaign_id"]; isOneToOne: false; referencedRelation: "campaigns"; referencedColumns: ["id"] }
         ];
       };
       prospect_candidates: {
@@ -602,6 +604,25 @@ export interface Database {
         Insert: Partial<Database["public"]["Tables"]["expenses"]["Row"]> & { category: string; amount_usd: number };
         Update: Partial<Database["public"]["Tables"]["expenses"]["Row"]>;
         Relationships: [{ foreignKeyName: "expenses_branch_id_fkey"; columns: ["branch_id"]; isOneToOne: false; referencedRelation: "branches"; referencedColumns: ["id"] }];
+      };
+      campaigns: {
+        Row: {
+          id: string;
+          name: string;
+          channel: string;
+          status: string;
+          budget_usd: number;
+          starts_on: string | null;
+          ends_on: string | null;
+          notes: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: Partial<Database["public"]["Tables"]["campaigns"]["Row"]> & { name: string; channel: string };
+        Update: Partial<Database["public"]["Tables"]["campaigns"]["Row"]>;
+        Relationships: [{ foreignKeyName: "campaigns_created_by_fkey"; columns: ["created_by"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] }];
       };
     };
     Views: Record<string, never>;

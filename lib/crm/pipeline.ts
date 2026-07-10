@@ -1,4 +1,28 @@
-import type { LeadStage } from "@/lib/supabase/database.types";
+import type { LeadStage, LeadSource } from "@/lib/supabase/database.types";
+
+export const SOURCE_LABELS: Record<LeadSource, string> = {
+  whatsapp: "WhatsApp",
+  website: "Website",
+  facebook: "Facebook",
+  instagram: "Instagram",
+  linkedin: "LinkedIn",
+  google_business: "Google Business",
+  referral: "Referral",
+  walk_in: "Walk-in",
+  qr_code: "QR Code",
+  phone: "Phone",
+  email: "Email",
+  google_form: "Google Form",
+  tender: "Tender",
+  cold_call: "Cold Call",
+  networking_event: "Networking Event",
+  ai_prospecting: "AI Prospecting",
+};
+
+export const SCORE_LABELS: Record<string, string> = { hot: "Hot", warm: "Warm", cold: "Cold" };
+export const SCORE_DOT_COLORS: Record<string, string> = { hot: "bg-[#e0483d]", warm: "bg-[#e0a23d]", cold: "bg-[#7a8699]" };
+export const BANT_LABELS: Record<string, string> = { yes: "Yes", no: "No", unknown: "Unknown" };
+export const CHANNEL_LABELS: Record<string, string> = { call: "Call", whatsapp: "WhatsApp", email: "Email", meeting: "Meeting", social: "Social", sms: "SMS", system: "System" };
 
 /** Active pipeline order (README.md's 7-column kanban) — Won/Lost/Onboarding/Active/Repeat are lifecycle states past the sales funnel. */
 export const PIPELINE_STAGE_ORDER: LeadStage[] = ["new", "contacted", "qualified", "site_visit", "quotation", "negotiation", "won"];

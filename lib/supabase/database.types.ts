@@ -614,6 +614,21 @@ export interface Database {
       };
       record_failed_login: { Args: { p_email: string; p_max_attempts?: number }; Returns: void };
       record_successful_login: { Args: Record<string, never>; Returns: void };
+      update_lead_stage: { Args: { p_lead_id: string; p_stage: LeadStage }; Returns: Database["public"]["Tables"]["leads"]["Row"] };
+      log_communication: {
+        Args: {
+          p_lead_id?: string | null;
+          p_customer_id?: string | null;
+          p_channel?: string;
+          p_direction?: string;
+          p_title?: string | null;
+          p_note?: string | null;
+          p_client_response?: string | null;
+          p_next_followup_at?: string | null;
+        };
+        Returns: Database["public"]["Tables"]["communications"]["Row"];
+      };
+      convert_lead_to_customer: { Args: { p_lead_id: string }; Returns: Database["public"]["Tables"]["customers"]["Row"] };
     };
     Enums: {
       user_role: UserRole;

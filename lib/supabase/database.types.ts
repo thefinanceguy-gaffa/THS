@@ -661,6 +661,33 @@ export interface Database {
         Returns: Database["public"]["Tables"]["site_assessments"]["Row"];
       };
       complete_site_assessment: { Args: { p_assessment_id: string }; Returns: Database["public"]["Tables"]["site_assessments"]["Row"] };
+      create_job: {
+        Args: {
+          p_customer_id: string | null;
+          p_contract_id: string | null;
+          p_site_address: string | null;
+          p_suburb: string | null;
+          p_service_type: string | null;
+          p_team_id: string | null;
+          p_supervisor_id: string | null;
+          p_priority: string | null;
+          p_scheduled_start: string | null;
+          p_scheduled_end: string | null;
+        };
+        Returns: Database["public"]["Tables"]["jobs"]["Row"];
+      };
+      update_job_status: { Args: { p_job_id: string; p_status: JobStatus }; Returns: Database["public"]["Tables"]["jobs"]["Row"] };
+      record_job_event: {
+        Args: {
+          p_job_id: string;
+          p_type: string;
+          p_payload?: Json | null;
+          p_gps_lat?: number | null;
+          p_gps_lng?: number | null;
+          p_client_generated_id?: string | null;
+        };
+        Returns: Database["public"]["Tables"]["job_events"]["Row"];
+      };
     };
     Enums: {
       user_role: UserRole;

@@ -716,6 +716,13 @@ export interface Database {
         Args: { p_customer_id: string | null; p_service_type: string | null; p_monthly_usd: number | null; p_term_months: number | null; p_starts_on: string | null; p_auto_renew: boolean };
         Returns: Database["public"]["Tables"]["contracts"]["Row"];
       };
+      adjust_stock: {
+        Args: { p_item_id: string; p_location_id: string | null; p_quantity: number; p_reference: string | null };
+        Returns: Database["public"]["Tables"]["stock_movements"]["Row"];
+      };
+      create_purchase_order: { Args: { p_supplier_id: string | null; p_amount_usd: number | null }; Returns: Database["public"]["Tables"]["purchase_orders"]["Row"] };
+      decide_purchase_order: { Args: { p_po_id: string; p_approve: boolean }; Returns: Database["public"]["Tables"]["purchase_orders"]["Row"] };
+      mark_po_delivered: { Args: { p_po_id: string }; Returns: Database["public"]["Tables"]["purchase_orders"]["Row"] };
     };
     Enums: {
       user_role: UserRole;

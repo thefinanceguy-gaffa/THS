@@ -587,6 +587,22 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["audit_logs"]["Row"]>;
         Relationships: [{ foreignKeyName: "audit_logs_approval_ref_fkey"; columns: ["approval_ref"]; isOneToOne: false; referencedRelation: "approvals"; referencedColumns: ["id"] }];
       };
+      expenses: {
+        Row: {
+          id: string;
+          category: string;
+          description: string | null;
+          amount_usd: number;
+          branch_id: string | null;
+          incurred_on: string;
+          recorded_by: string | null;
+          created_at: string;
+          deleted_at: string | null;
+        };
+        Insert: Partial<Database["public"]["Tables"]["expenses"]["Row"]> & { category: string; amount_usd: number };
+        Update: Partial<Database["public"]["Tables"]["expenses"]["Row"]>;
+        Relationships: [{ foreignKeyName: "expenses_branch_id_fkey"; columns: ["branch_id"]; isOneToOne: false; referencedRelation: "branches"; referencedColumns: ["id"] }];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -687,6 +703,18 @@ export interface Database {
           p_client_generated_id?: string | null;
         };
         Returns: Database["public"]["Tables"]["job_events"]["Row"];
+      };
+      create_invoice: {
+        Args: { p_customer_id: string | null; p_contract_id: string | null; p_issued_on: string | null; p_due_on: string | null; p_lines: Json };
+        Returns: Database["public"]["Tables"]["invoices"]["Row"];
+      };
+      record_payment: {
+        Args: { p_invoice_id: string | null; p_customer_id: string | null; p_amount_usd: number; p_method: string | null };
+        Returns: Database["public"]["Tables"]["payments"]["Row"];
+      };
+      create_contract: {
+        Args: { p_customer_id: string | null; p_service_type: string | null; p_monthly_usd: number | null; p_term_months: number | null; p_starts_on: string | null; p_auto_renew: boolean };
+        Returns: Database["public"]["Tables"]["contracts"]["Row"];
       };
     };
     Enums: {

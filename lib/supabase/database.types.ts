@@ -56,6 +56,7 @@ export interface Database {
       profiles: {
         Row: {
           id: string;
+          email: string | null;
           full_name: string;
           role: UserRole;
           branch_id: string | null;
@@ -607,6 +608,12 @@ export interface Database {
         };
         Returns: void;
       };
+      profile_id_for_email: {
+        Args: { p_email: string };
+        Returns: { id: string; is_suspended: boolean; failed_login_count: number }[];
+      };
+      record_failed_login: { Args: { p_email: string; p_max_attempts?: number }; Returns: void };
+      record_successful_login: { Args: Record<string, never>; Returns: void };
     };
     Enums: {
       user_role: UserRole;

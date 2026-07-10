@@ -629,6 +629,38 @@ export interface Database {
         Returns: Database["public"]["Tables"]["communications"]["Row"];
       };
       convert_lead_to_customer: { Args: { p_lead_id: string }; Returns: Database["public"]["Tables"]["customers"]["Row"] };
+      create_quotation: {
+        Args: {
+          p_customer_id: string | null;
+          p_lead_id: string | null;
+          p_assessment_id: string | null;
+          p_service_summary: string | null;
+          p_discount_percent: number;
+          p_valid_until: string | null;
+          p_lines: Json;
+        };
+        Returns: Database["public"]["Tables"]["quotations"]["Row"];
+      };
+      submit_quotation: { Args: { p_quotation_id: string }; Returns: Database["public"]["Tables"]["quotations"]["Row"] };
+      decide_quotation_approval: { Args: { p_quotation_id: string; p_approve: boolean; p_reason?: string | null }; Returns: Database["public"]["Tables"]["quotations"]["Row"] };
+      set_quotation_status: { Args: { p_quotation_id: string; p_status: QuoteStatus }; Returns: Database["public"]["Tables"]["quotations"]["Row"] };
+      create_site_assessment: {
+        Args: {
+          p_customer_id: string | null;
+          p_lead_id: string | null;
+          p_site_name: string;
+          p_suburb: string | null;
+          p_assessor_id: string | null;
+          p_scheduled_at: string | null;
+          p_recommended_crew: string | null;
+          p_service_window: string | null;
+          p_est_monthly_usd: number | null;
+          p_risks: string | null;
+          p_areas: Json;
+        };
+        Returns: Database["public"]["Tables"]["site_assessments"]["Row"];
+      };
+      complete_site_assessment: { Args: { p_assessment_id: string }; Returns: Database["public"]["Tables"]["site_assessments"]["Row"] };
     };
     Enums: {
       user_role: UserRole;

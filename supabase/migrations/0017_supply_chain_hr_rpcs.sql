@@ -41,6 +41,7 @@ begin
 end;
 $$;
 revoke execute on function public.adjust_stock(uuid, uuid, numeric, text) from anon, public;
+grant execute on function public.adjust_stock(uuid, uuid, numeric, text) to authenticated;
 
 create or replace function public.create_purchase_order(p_supplier_id uuid, p_amount_usd numeric)
 returns purchase_orders
@@ -71,6 +72,7 @@ begin
 end;
 $$;
 revoke execute on function public.create_purchase_order(uuid, numeric) from anon, public;
+grant execute on function public.create_purchase_order(uuid, numeric) to authenticated;
 
 create or replace function public.decide_purchase_order(p_po_id uuid, p_approve boolean)
 returns purchase_orders
@@ -98,6 +100,7 @@ begin
 end;
 $$;
 revoke execute on function public.decide_purchase_order(uuid, boolean) from anon, public;
+grant execute on function public.decide_purchase_order(uuid, boolean) to authenticated;
 
 create or replace function public.mark_po_delivered(p_po_id uuid)
 returns purchase_orders
@@ -121,3 +124,4 @@ begin
 end;
 $$;
 revoke execute on function public.mark_po_delivered(uuid) from anon, public;
+grant execute on function public.mark_po_delivered(uuid) to authenticated;

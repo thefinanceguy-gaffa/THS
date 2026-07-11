@@ -58,6 +58,7 @@ begin
 end;
 $$;
 revoke execute on function public.create_quotation(uuid, uuid, uuid, text, numeric, date, jsonb) from anon, public;
+grant execute on function public.create_quotation(uuid, uuid, uuid, text, numeric, date, jsonb) to authenticated;
 
 create or replace function public.submit_quotation(p_quotation_id uuid)
 returns quotations
@@ -104,6 +105,7 @@ begin
 end;
 $$;
 revoke execute on function public.submit_quotation(uuid) from anon, public;
+grant execute on function public.submit_quotation(uuid) to authenticated;
 
 create or replace function public.decide_quotation_approval(p_quotation_id uuid, p_approve boolean, p_reason text default null::text)
 returns quotations
@@ -147,6 +149,7 @@ begin
 end;
 $$;
 revoke execute on function public.decide_quotation_approval(uuid, boolean, text) from anon, public;
+grant execute on function public.decide_quotation_approval(uuid, boolean, text) to authenticated;
 
 -- Post-send lifecycle (negotiation / awaiting_client / accepted / rejected /
 -- expired) — a plain status move, not an approval. Accepting a quote tied
@@ -177,3 +180,4 @@ begin
 end;
 $$;
 revoke execute on function public.set_quotation_status(uuid, quote_status) from anon, public;
+grant execute on function public.set_quotation_status(uuid, quote_status) to authenticated;

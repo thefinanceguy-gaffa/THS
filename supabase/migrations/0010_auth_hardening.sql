@@ -89,3 +89,4 @@ begin
 end;
 $$;
 revoke execute on function public.record_successful_login() from anon, public;
+grant execute on function public.record_successful_login() to authenticated;

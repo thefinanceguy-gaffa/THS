@@ -34,6 +34,7 @@ begin
 end;
 $$;
 revoke execute on function public.update_lead_stage(uuid, lead_stage) from anon, public;
+grant execute on function public.update_lead_stage(uuid, lead_stage) to authenticated;
 
 create or replace function public.log_communication(
   p_lead_id uuid default null::uuid, p_customer_id uuid default null::uuid,
@@ -68,6 +69,7 @@ begin
 end;
 $$;
 revoke execute on function public.log_communication(uuid, uuid, text, text, text, text, text, timestamptz) from anon, public;
+grant execute on function public.log_communication(uuid, uuid, text, text, text, text, text, timestamptz) to authenticated;
 
 -- Won lead becomes an Active Client. Idempotent — calling it again on an
 -- already-converted lead just returns the existing customer.
@@ -113,3 +115,4 @@ begin
 end;
 $$;
 revoke execute on function public.convert_lead_to_customer(uuid) from anon, public;
+grant execute on function public.convert_lead_to_customer(uuid) to authenticated;

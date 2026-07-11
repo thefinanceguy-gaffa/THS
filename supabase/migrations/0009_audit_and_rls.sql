@@ -86,6 +86,7 @@ begin
 end;
 $$;
 revoke execute on function public.log_audit_event(text, text, text, uuid, text, text, text) from anon, public;
+grant execute on function public.log_audit_event(text, text, text, uuid, text, text, text) to authenticated;
 
 create trigger audit_customers          after insert or update or delete on public.customers          for each row execute function public.fn_audit();
 create trigger audit_leads              after insert or update or delete on public.leads              for each row execute function public.fn_audit();

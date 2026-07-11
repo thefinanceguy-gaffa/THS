@@ -43,6 +43,7 @@ begin
 end;
 $$;
 revoke execute on function public.portal_respond_to_quotation(uuid, boolean) from anon, public;
+grant execute on function public.portal_respond_to_quotation(uuid, boolean) to authenticated;
 
 -- Request Clean / Log Complaint / Rate last service — all logged as
 -- communications against the caller's own customer (channel='portal'),
@@ -88,3 +89,4 @@ begin
 end;
 $$;
 revoke execute on function public.portal_log_request(text, text, int) from anon, public;
+grant execute on function public.portal_log_request(text, text, int) to authenticated;

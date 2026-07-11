@@ -41,6 +41,7 @@ begin
 end;
 $$;
 revoke execute on function public.create_invoice(uuid, uuid, date, date, jsonb) from anon, public;
+grant execute on function public.create_invoice(uuid, uuid, date, date, jsonb) to authenticated;
 
 create or replace function public.record_payment(p_invoice_id uuid, p_customer_id uuid, p_amount_usd numeric, p_method text)
 returns payments
@@ -77,6 +78,7 @@ begin
 end;
 $$;
 revoke execute on function public.record_payment(uuid, uuid, numeric, text) from anon, public;
+grant execute on function public.record_payment(uuid, uuid, numeric, text) to authenticated;
 
 create or replace function public.create_contract(
   p_customer_id uuid, p_service_type text, p_monthly_usd numeric, p_term_months int, p_starts_on date, p_auto_renew boolean
@@ -101,3 +103,4 @@ begin
 end;
 $$;
 revoke execute on function public.create_contract(uuid, text, numeric, int, date, boolean) from anon, public;
+grant execute on function public.create_contract(uuid, text, numeric, int, date, boolean) to authenticated;

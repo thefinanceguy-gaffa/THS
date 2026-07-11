@@ -41,6 +41,7 @@ begin
 end;
 $$;
 revoke execute on function public.create_site_assessment(uuid, uuid, text, text, uuid, timestamptz, text, text, numeric, text, jsonb) from anon, public;
+grant execute on function public.create_site_assessment(uuid, uuid, text, text, uuid, timestamptz, text, text, numeric, text, jsonb) to authenticated;
 
 create or replace function public.complete_site_assessment(p_assessment_id uuid)
 returns site_assessments
@@ -64,3 +65,4 @@ begin
 end;
 $$;
 revoke execute on function public.complete_site_assessment(uuid) from anon, public;
+grant execute on function public.complete_site_assessment(uuid) to authenticated;

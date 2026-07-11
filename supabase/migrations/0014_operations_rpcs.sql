@@ -26,6 +26,7 @@ begin
 end;
 $$;
 revoke execute on function public.create_job(uuid, uuid, text, text, text, uuid, uuid, text, timestamptz, timestamptz) from anon, public;
+grant execute on function public.create_job(uuid, uuid, text, text, text, uuid, uuid, text, timestamptz, timestamptz) to authenticated;
 
 create or replace function public.update_job_status(p_job_id uuid, p_status job_status)
 returns jobs
@@ -62,6 +63,7 @@ begin
 end;
 $$;
 revoke execute on function public.update_job_status(uuid, job_status) from anon, public;
+grant execute on function public.update_job_status(uuid, job_status) to authenticated;
 
 -- Field capture — one row per event (check-in, photo, checklist item,
 -- chemical/equipment used, incident, signature). client_generated_id makes
@@ -116,3 +118,4 @@ begin
 end;
 $$;
 revoke execute on function public.record_job_event(uuid, text, jsonb, numeric, numeric, text) from anon, public;
+grant execute on function public.record_job_event(uuid, text, jsonb, numeric, numeric, text) to authenticated;

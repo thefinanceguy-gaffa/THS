@@ -75,6 +75,14 @@ begin
 end;
 $$;
 revoke execute on function public.next_document_number(text, text) from anon, public;
+-- Every document-numbering trigger (set_quotation_number, set_job_number,
+-- set_po_number, set_contract_number, set_invoice_number, set_receipt_number,
+-- set_site_assessment_reference) calls this as a plain SECURITY INVOKER
+-- function, not SECURITY DEFINER — so it runs as whichever role fired the
+-- INSERT. Without this grant, every one of those inserts fails for a real
+-- `authenticated` user (caught by running the actual insert as `authenticated`
+-- against a real Postgres instance, not just reading the migration for syntax).
+grant execute on function public.next_document_number(text, text) to authenticated;
 
 -- ----------------------------------------------------------------------------
 -- ORG / TENANCY

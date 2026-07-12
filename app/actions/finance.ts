@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { contractSchema, invoiceSchema, paymentSchema, expenseSchema } from "@/lib/validation/finance";
+import { sendInvoiceEmail, sendReceiptEmail } from "@/lib/email/send";
 
 export interface ActionState {
   error: string | null;
@@ -55,6 +56,7 @@ export async function createInvoice(_prevState: ActionState, formData: FormData)
     p_lines: parsed.data.lines,
   });
   if (error) return { error: error.message };
+  await sendInvoiceEmail(supabase, data);
 
   revalidatePath("/finance/invoices");
   redirect(`/finance/invoices/${data.id}`);
@@ -70,13 +72,14 @@ export async function recordPayment(_prevState: ActionState, formData: FormData)
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Please check the form for errors." };
 
   const supabase = await createClient();
-  const { error } = await supabase.rpc("record_payment", {
+  const { data, error } = await supabase.rpc("record_payment", {
     p_invoice_id: parsed.data.invoice_id || null,
     p_customer_id: parsed.data.customer_id,
     p_amount_usd: parsed.data.amount_usd,
     p_method: parsed.data.method,
   });
   if (error) return { error: error.message };
+  await sendReceiptEmail(supabase, data);
 
   revalidatePath("/finance/payments");
   revalidatePath("/finance/invoices");

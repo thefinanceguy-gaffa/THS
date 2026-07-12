@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { quotationSchema } from "@/lib/validation/quotations";
-import type { QuoteStatus } from "@/lib/supabase/database.types";
+import { sendQuotationEmail } from "@/lib/email/send";
+import type { QuoteStatus, Tables } from "@/lib/supabase/database.types";
 
 export interface ActionState {
   error: string | null;
@@ -43,10 +44,15 @@ export async function createQuotation(_prevState: ActionState, formData: FormDat
   redirect(`/quotations/${data.id}`);
 }
 
+async function emailIfSent(supabase: Awaited<ReturnType<typeof createClient>>, quotation: Tables<"quotations"> | null) {
+  if (quotation?.status === "sent") await sendQuotationEmail(supabase, quotation);
+}
+
 export async function submitQuotation(quotationId: string): Promise<ActionState> {
   const supabase = await createClient();
-  const { error } = await supabase.rpc("submit_quotation", { p_quotation_id: quotationId });
+  const { data, error } = await supabase.rpc("submit_quotation", { p_quotation_id: quotationId });
   if (error) return { error: error.message };
+  await emailIfSent(supabase, data);
 
   revalidatePath(`/quotations/${quotationId}`);
   revalidatePath("/quotations");
@@ -55,8 +61,9 @@ export async function submitQuotation(quotationId: string): Promise<ActionState>
 
 export async function decideQuotationApproval(quotationId: string, approve: boolean, reason?: string): Promise<ActionState> {
   const supabase = await createClient();
-  const { error } = await supabase.rpc("decide_quotation_approval", { p_quotation_id: quotationId, p_approve: approve, p_reason: reason || null });
+  const { data, error } = await supabase.rpc("decide_quotation_approval", { p_quotation_id: quotationId, p_approve: approve, p_reason: reason || null });
   if (error) return { error: error.message };
+  await emailIfSent(supabase, data);
 
   revalidatePath(`/quotations/${quotationId}`);
   revalidatePath("/quotations");

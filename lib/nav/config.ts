@@ -22,6 +22,7 @@ export const NAV_GROUPS: NavGroup[] = [
     label: "SALES & CRM",
     items: [
       { label: "CRM & Leads", href: "/crm", icon: "target", roles: ["owner", "admin", "bus_dev", "ops_manager"] },
+      { label: "AI Prospecting", href: "/crm/prospecting", icon: "travel_explore", roles: ["owner", "admin", "bus_dev", "ops_manager"] },
       { label: "Quotations", href: "/quotations", icon: "request_quote", roles: ["owner", "admin", "bus_dev", "ops_manager", "finance"] },
       { label: "Site Assessments", href: "/assessments", icon: "fact_check", roles: ["owner", "admin", "bus_dev", "ops_manager"] },
       { label: "Contracts", href: "/contracts", icon: "history_edu", roles: ["owner", "admin", "finance", "bus_dev", "ops_manager"] },

@@ -666,6 +666,7 @@ export interface Database {
         Returns: Database["public"]["Tables"]["communications"]["Row"];
       };
       convert_lead_to_customer: { Args: { p_lead_id: string }; Returns: Database["public"]["Tables"]["customers"]["Row"] };
+      convert_prospect_to_lead: { Args: { p_prospect_id: string }; Returns: Database["public"]["Tables"]["leads"]["Row"] };
       create_quotation: {
         Args: {
           p_customer_id: string | null;
